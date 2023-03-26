@@ -10,8 +10,14 @@ services:
         container_name: prometheus
         hostname: prometheus
         restart: always
+        user: root
         volumes:
             - ./prometheus.yml:/etc/prometheus/prometheus.yml
+            - ./data:/etc/prometheus/data
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/etc/prometheus/data'
+            - '--storage.tsdb.retention.time=15d'
         ports:
             - "9090:9090"
         networks:
